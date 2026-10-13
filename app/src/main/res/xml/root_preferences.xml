@@ -214,6 +214,14 @@
                 app:title="@string/pref_back_buffer"
                 app:summary="@string/pref_back_buffer_summary" />
 
+            <ListPreference
+                app:key="upscaler"
+                app:defaultValue="0"
+                app:entries="@array/upscaler_entries"
+                app:entryValues="@array/upscaler_values"
+                app:title="@string/pref_upscaler"
+                app:summary="@string/pref_upscaler_summary" />
+
             <SwitchPreferenceCompat
                 app:key="autoPiP"
                 app:defaultValue="false"

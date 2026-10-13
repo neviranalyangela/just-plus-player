@@ -220,6 +220,19 @@
     <item>30000</item>
   </string-array>
 
+  <string-array name="upscaler_entries">
+    <item>@string/pref_upscaler_off</item>
+    <item>@string/pref_upscaler_anime4k</item>
+    <item>@string/pref_upscaler_fsrcnnx</item>
+  </string-array>
+
+  <!-- Parsed with Integer.parseInt: a translated item would crash the app on that locale. -->
+  <string-array name="upscaler_values" translatable="false">
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+  </string-array>
+
   <!-- Parsed with Integer.parseInt: a translated item would crash the app on that locale. -->
   <string-array name="audio_sync_values" translatable="false">
     <item>-1500</item>

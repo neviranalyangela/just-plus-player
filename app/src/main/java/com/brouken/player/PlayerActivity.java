@@ -111,6 +111,7 @@ import androidx.documentfile.provider.DocumentFile;
 import androidx.media3.common.AudioAttributes;
 import androidx.media3.common.C;
 import androidx.media3.common.util.Clock;
+import androidx.media3.common.util.UnstableApi;
 import androidx.media3.common.util.Util;
 import androidx.media3.common.ColorInfo;
 import androidx.media3.common.Format;
@@ -141,6 +142,8 @@ import androidx.media3.exoplayer.DefaultLoadControl;
 import androidx.media3.exoplayer.DefaultRenderersFactory;
 import androidx.media3.exoplayer.ExoPlaybackException;
 import androidx.media3.exoplayer.ExoPlayer;
+import com.brouken.player.upscale.Anime4KEffect;
+import com.brouken.player.upscale.FsrcnnxEffect;
 import androidx.media3.exoplayer.ExoTimeoutException;
 import android.text.style.ForegroundColorSpan;
 import androidx.media3.exoplayer.Renderer;
@@ -11556,6 +11559,29 @@ public class PlayerActivity extends Activity {
         }
     }
 
+    // Neural-network video upscaling (Anime4K / FSRCNNX), applied as a Media3 video effect.
+    // Rebuild-type like the other video settings: the choice is read once when the player
+    // is built. Tunneling is skipped — the decoder writes straight to the surface, past
+    // the effect chain. HDR and DRM fall back to a passthrough inside the effect itself,
+    // and oversized inputs bypass the CNN inside the shader program, so playback here
+    // never depends on the GPU cooperating.
+    @UnstableApi
+    private void applyVideoUpscaler(ExoPlayer player) {
+        if (mPrefs.tunneling) {
+            return;
+        }
+        switch (mPrefs.upscaler) {
+            case Prefs.UPSCALER_ANIME4K:
+                player.setVideoEffects(Collections.singletonList(new Anime4KEffect()));
+                break;
+            case Prefs.UPSCALER_FSRCNNX:
+                player.setVideoEffects(Collections.singletonList(new FsrcnnxEffect()));
+                break;
+            default:
+                break;
+        }
+    }
+
     public void initializePlayer() {
         // Before anything asks where this file was left: another screen may have written that since
         // this activity was created, and on a torrent server another device may have.
@@ -12326,6 +12352,8 @@ public class PlayerActivity extends Activity {
         playerBuilder.setLoadControl(loadControlBuilder.build());
 
         player = playerBuilder.build();
+
+        applyVideoUpscaler(player);
 
         if (!mPrefs.allowSystemFrameRate) {
             // Stop ExoPlayer from voting Surface.setFrameRate() on start/pause/seek. On many TV

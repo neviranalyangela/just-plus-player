@@ -170,6 +170,13 @@ dependencies {
     implementation("androidx.media3:media3-exoplayer-rtsp:$media3_version") {
         exclude group: "androidx.media3", module: "media3-exoplayer"
     }
+
+    // GlEffect video effects for the neural-network upscalers (Anime4K / FSRCNNX).
+    // media3-exoplayer is excluded like for every other media3 module here, so it
+    // resolves against the local prebuilt AAR.
+    implementation("androidx.media3:media3-effect:$media3_version") {
+        exclude group: "androidx.media3", module: "media3-exoplayer"
+    }
     // Rewrites a Dolby Vision profile 7 RPU into its profile 8.1 form (libdovi behind a JNI shim), so
     // profile 7 reaches the display as Dolby Vision instead of as its HDR10 base layer — see
     // Dv7Converter, which supplies the Matroska enhancement-layer hook this library does not have.

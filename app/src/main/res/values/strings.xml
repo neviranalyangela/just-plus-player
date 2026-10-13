@@ -150,6 +150,11 @@
     <string name="pref_back_buffer">Keep played media for stepping back</string>
     <string name="pref_back_buffer_off">Off</string>
     <string name="pref_back_buffer_summary">%s. Kept in memory for a short rewind, about 10 MB per five seconds. Not for local files</string>
+    <string name="pref_upscaler">Video upscaler</string>
+    <string name="pref_upscaler_off">Off</string>
+    <string name="pref_upscaler_anime4k">Anime4K (anime-optimized)</string>
+    <string name="pref_upscaler_fsrcnnx">FSRCNNX (general content)</string>
+    <string name="pref_upscaler_summary">Sharpens low-resolution video with a neural network on the GPU. Skipped automatically for 4K sources, HDR, DRM and tunneling</string>
     <string name="pref_resolution_matching">Match the resolution to the video</string>
     <string name="pref_resolution_matching_on">The resolution is matched too, not only the rate</string>
     <string name="pref_resolution_matching_off">The refresh rate is matched, the resolution is not</string>
