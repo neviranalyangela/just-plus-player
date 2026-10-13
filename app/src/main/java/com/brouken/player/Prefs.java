@@ -74,6 +74,11 @@ class Prefs {
     private static final String PREF_KEY_TUNNELING = "tunneling";
     private static final String PREF_KEY_FRAMERATE_MATCHING = "frameRateMatching";
     private static final String PREF_KEY_BACK_BUFFER_MS = "backBufferMs";
+    /** Neural-network video upscaler applied as a Media3 effect; rebuild-type. */
+    public static final int UPSCALER_OFF = 0;
+    public static final int UPSCALER_ANIME4K = 1;
+    public static final int UPSCALER_FSRCNNX = 2;
+    private static final String PREF_KEY_UPSCALER = "upscaler";
     private static final String PREF_KEY_DISPLAY_RESOLUTION_MATCHING = "displayResolutionMatching";
     private static final String PREF_KEY_ALLOW_SYSTEM_FRAMERATE = "allowSystemFrameRate";
     private static final String PREF_KEY_REPEAT_TOGGLE = "repeatToggle";
@@ -247,6 +252,9 @@ class Prefs {
     // what plays ahead. Enough for the rewind people actually make — the one where a line was missed
     // — and the viewer on a box that cannot spare even that turns it off.
     public int backBufferMs = 5_000;
+    // Which neural upscaler (if any) runs on the video frames. Read once when the player
+    // is built; changing it rebuilds the player like the other video settings.
+    public int upscaler = UPSCALER_OFF;
     // Whether the display may also change resolution for the video, not only refresh rate. Off by
     // default like the reference: a resolution change is a longer black screen than a rate change, and
     // on a television that has already been set to 4K it buys nothing.
@@ -478,6 +486,8 @@ class Prefs {
         frameRateMatching = mSharedPreferences.getBoolean(PREF_KEY_FRAMERATE_MATCHING, frameRateMatching);
         backBufferMs = Integer.parseInt(mSharedPreferences.getString(PREF_KEY_BACK_BUFFER_MS,
                 String.valueOf(backBufferMs)));
+        upscaler = Integer.parseInt(mSharedPreferences.getString(PREF_KEY_UPSCALER,
+                String.valueOf(upscaler)));
         displayResolutionMatching = mSharedPreferences.getBoolean(PREF_KEY_DISPLAY_RESOLUTION_MATCHING,
                 displayResolutionMatching);
         allowSystemFrameRate = mSharedPreferences.getBoolean(PREF_KEY_ALLOW_SYSTEM_FRAMERATE, !Utils.isTvBox(mContext));
