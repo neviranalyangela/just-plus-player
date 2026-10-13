@@ -23,14 +23,15 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+        # Only the sideloaded universal variant: assembleDebug builds 4 flavor
+        # combos in one JVM and packaging OOMs even at 8g heap.
+        run: ./gradlew assembleLatestUniversalDebug --no-daemon --stacktrace
         env:
-          # Single-JVM (--no-daemon) build of a huge app: default heap OOMs in zipflinger while packaging.
           GRADLE_OPTS: "-Xmx8g -XX:MaxMetaspaceSize=1g"
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-upscalers
-          path: app/build/outputs/apk/debug/app-debug.apk
+          path: app/build/outputs/apk/latestUniversal/debug/*.apk
           if-no-files-found: error
